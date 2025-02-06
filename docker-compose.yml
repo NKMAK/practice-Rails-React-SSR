@@ -1,0 +1,32 @@
+services:
+  db:
+    #dockerfileを使わずにイメージを指定する場合
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: sample_user
+      POSTGRES_DB: sample_DB
+      POSTGRES_PASSWORD: sample_password
+    ports:
+      - "5432:5432"
+    restart: always
+    healthcheck:
+      test: pg_isready -U sample_user -d sample_DB
+      interval: 2s
+      timeout: 3s
+      retries: 40
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: bundle exec rails s -p 8000 -b '0.0.0.0'
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development # 開発環境であることを明示
+      DATABASE_URL: postgres://sample_user:sample_password@db:5432/sample_DB # DBの接続情報も環境変数で指定
+      SECRET_KEY_BASE: development_key # 開発用のシークレットキー
