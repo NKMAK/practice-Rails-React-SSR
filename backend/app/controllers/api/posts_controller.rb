@@ -1,4 +1,4 @@
-class Api::PostsController < ActionController
+class Api::PostsController < ApplicationController
 
 
     def create
