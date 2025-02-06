@@ -19,6 +19,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_06_095431) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["title", "created_at"], name: "index_posts_on_title_and_created_at", unique: true
+    t.index ["title", "created_at"], name: "index_posts_on_title_and_created_at"
   end
 end
