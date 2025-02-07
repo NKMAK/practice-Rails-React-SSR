@@ -8,6 +8,8 @@ class CreateRefreshTokens < ActiveRecord::Migration[7.2]
     end
     add_index :refresh_tokens, :user_id
     add_index :refresh_tokens, :token, unique: true
-    add_foreign_key :refresh_tokens, :users
+    add_foreign_key :refresh_tokens, :users, 
+                    column: :user_id,        # refresh_tokensのカラム
+                    primary_key: 'id'        # usersのカラム
   end
 end
