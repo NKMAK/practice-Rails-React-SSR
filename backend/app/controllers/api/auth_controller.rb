@@ -1,7 +1,12 @@
 class Api::AuthController < ApplicationController
   def signup
     user_params = params.require(:user).permit(:username, :email, :password)
-    render json: { received: user_params } # 受け取ったデータを確認
+    user = User.new(user_params)  
+    if user.save
+      render json: { uuid: user.uuid }  # 成功時とりあえずUUIDを返す
+    else
+      render json: { errors: user.errors }, status: :unprocessable_entity 
+    end
   end
 
   def login
