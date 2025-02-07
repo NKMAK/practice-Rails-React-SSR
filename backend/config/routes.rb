@@ -9,4 +9,9 @@ Rails.application.routes.draw do
     post "posts" => "posts#create"
   end
 
+  namespace :api do
+    post "signup" => "auth#signup"
+    post "login" => "auth#login"
+    post "refresh-token" => "auth#refresh_token"
+  end
 end
