@@ -15,25 +15,12 @@ class Api::AuthController < ApplicationController
     user = User.find_by(email: user_params[:email])
   
     if user&.authenticate(user_params[:password])# ユーザーが存在し、パスワードが一致する場合
-      refresh_token = RefreshToken.find_by(user_id: user.id)
+      found_refresh_token  = RefreshToken.find_by(user_id: user.id)
   
-      if refresh_token
-        # 既存トークンの更新
-        refresh_token.update!(
-          token: SecureRandom.hex(32),
-          expires_at: 30.days.from_now
-        )
-      else
-        # 新規トークンの作成
-        refresh_token = RefreshToken.create!(
-          user_id: user.id,
-          token: SecureRandom.hex(32),
-          expires_at: 30.days.from_now
-        )
-      end
+      update_refresh_token_record = found_refresh_token ? update_refresh_token(found_refresh_token) : create_refresh_token(user)
   
       render json: {
-        refresh_token: refresh_token.token,
+        refresh_token: update_refresh_token_record.token,
         uuid: user.uuid
       }
     else
@@ -57,6 +44,7 @@ class Api::AuthController < ApplicationController
     if refresh_token
       # 新しいJWTトークン生成
       jwt = generate_jwt(user)
+      update_refresh_token(refresh_token)
       render json: { token: jwt }
     else
       render json: { error: 'Invalid token' }, status: :unauthorized
