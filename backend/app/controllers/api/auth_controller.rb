@@ -1,4 +1,5 @@
 class Api::AuthController < ApplicationController
+  include JwtHelper
   def signup
     user_params = params.require(:user).permit(:username, :email, :password)
     user = User.new(user_params)  
@@ -42,6 +43,23 @@ class Api::AuthController < ApplicationController
 
   def refresh_token
     token_params = params.require(:refresh_token).permit(:uuid, :token)
-    render json: { received: token_params }
+    user = User.find_by(uuid: token_params[:uuid])
+
+    return render json: { error: 'User not found' }, status: :not_found unless user
+  
+    # トークンと有効期限の検証
+    refresh_token = RefreshToken.find_by(
+      user_id: user.id,
+      token: token_params[:token],
+      expires_at: Time.current..
+    )
+  
+    if refresh_token
+      # 新しいJWTトークン生成
+      jwt = generate_jwt(user)
+      render json: { token: jwt }
+    else
+      render json: { error: 'Invalid token' }, status: :unauthorized
+    end
   end
 end
