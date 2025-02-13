@@ -1,6 +1,7 @@
 class Api::PostsController < ApplicationController
+    skip_before_action :authenticate_jwt  # 認証をスキップ
 
-
+    
     def create
       post = Post.new(post_params)
       
