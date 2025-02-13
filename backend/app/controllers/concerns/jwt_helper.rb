@@ -6,7 +6,7 @@ module JwtHelper
       user_id: user.uuid,
       exp: 24.hours.from_now.to_i
     }
-    JWT.encode(payload, 'sample_secret_key', 'HS256')
+    JWT.encode(payload, 'sample_secret_key', 'HS256') # 本来は環境変数で隠す
   end
 
   #try-catch入れたい

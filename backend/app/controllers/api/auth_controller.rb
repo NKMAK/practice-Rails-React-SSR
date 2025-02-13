@@ -1,10 +1,20 @@
 class Api::AuthController < ApplicationController
+  skip_before_action :authenticate_jwt  # 認証をスキップ
+
   include JwtHelper
+  
   def signup
     user_params = params.require(:user).permit(:username, :email, :password)
     user = User.new(user_params)  
+
     if user.save
-      render json: { uuid: user.uuid }  # 成功時とりあえずUUIDを返す
+      jwt = generate_jwt(user)
+      refresh_token  = create_refresh_token(user)
+      render json: {
+        token: jwt,  
+        refresh_token: refresh_token.token,
+        uuid: user.uuid
+      }
     else
       render json: { errors: user.errors }, status: :unprocessable_entity 
     end
@@ -16,11 +26,12 @@ class Api::AuthController < ApplicationController
   
     if user&.authenticate(user_params[:password])# ユーザーが存在し、パスワードが一致する場合
       found_refresh_token  = RefreshToken.find_by(user_id: user.id)
-  
-      update_refresh_token_record = found_refresh_token ? update_refresh_token(found_refresh_token) : create_refresh_token(user)
+      jwt = generate_jwt(user)
+      refresh_token  = found_refresh_token ? update_refresh_token(found_refresh_token) : create_refresh_token(user)
   
       render json: {
-        refresh_token: update_refresh_token_record.token,
+        token: jwt,  
+        refresh_token: found_refresh_token.token,
         uuid: user.uuid
       }
     else
