@@ -30,3 +30,13 @@ services:
       RAILS_ENV: development # 開発環境であることを明示
       DATABASE_URL: postgres://sample_user:sample_password@db:5432/sample_DB # DBの接続情報も環境変数で指定
       SECRET_KEY_BASE: development_key # 開発用のシークレットキー
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
