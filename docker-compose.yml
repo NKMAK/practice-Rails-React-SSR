@@ -19,7 +19,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: bundle exec rails s -p 8000 -b '0.0.0.0'
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 8000 -b '0.0.0.0'"  # 手動migrate必要
+    # entrypoint: ./wait-for-it.sh db:5432    ←1分後くらいに自動migrate
     volumes:
       - ./backend:/app
     ports:
@@ -40,3 +41,5 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
