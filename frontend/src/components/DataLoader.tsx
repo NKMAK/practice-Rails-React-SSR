@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { fetchTodos } from "../utils/fetchData";
+import { fetchTodos } from "../utils/fetch/fetchTodos";
 import ShowTodos from "./ShowTodos";
 import Fallback from "./Fallback";
 
