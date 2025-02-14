@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { fetchTodos } from "../utils/fetch/fetchTodos";
-import ShowTodos from "./ShowTodos";
+import Todos from "./Todos";
 import Fallback from "./Fallback";
 
 const DataLoader = () => {
@@ -10,7 +10,7 @@ const DataLoader = () => {
     <div style={{ border: '2px solid red' }}>
       <h2>DataLoaderコンポーネント</h2>
       <Suspense fallback={<Fallback />}>
-        <ShowTodos todos={todos} />
+        <Todos todos={todos} />
       </Suspense>
     </div>
   );
