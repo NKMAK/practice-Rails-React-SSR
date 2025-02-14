@@ -3,9 +3,5 @@ import { renderToString } from 'react-dom/server';
 import React from 'react';
 
 export function render() {
-  return renderToString(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
+  return renderToString(React.createElement(App));
 }
