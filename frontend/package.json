@@ -7,9 +7,15 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:express": "node server/index.js",
+    "dev:vite": "VITE_PORT=3000 vite",
+    "dev:ssr": "concurrently \"npm run dev:vite\" \"npm run dev:express\""
   },
   "dependencies": {
+    "concurrently": "^9.1.2",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

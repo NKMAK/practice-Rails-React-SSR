@@ -8,7 +8,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # 依存関係をインストール
+RUN npm install -g concurrently
 RUN npm install
-
+COPY . .
 # 開発用サーバの起動
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev:ssr"]
