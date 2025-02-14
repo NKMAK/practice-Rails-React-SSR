@@ -1,6 +1,6 @@
 import { Todo } from "../../types";
 
-export async function fetchTodos(url: string): Promise<Todo[]> {
+export const fetchTodos = async(url: string): Promise<Todo[]> => {
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error('APIリクエストが失敗しました');
