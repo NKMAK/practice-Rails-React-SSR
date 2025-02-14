@@ -1,16 +1,10 @@
-import { lazy, Suspense } from "react";
+import DataLoader from "./components/DataLoader";
 
-import Fallback from "./components/Fallback";
-
-const Dataloader = lazy(() => import("./components/DataLoader"));
-
-export default function App() {  
+export default function App() {
   return (
     <>
-      <h1>App Component</h1>
-      <Suspense fallback={<Fallback />}>
-        <Dataloader />
-      </Suspense>
+      <h1>Appコンポーネント</h1>
+      <DataLoader />
     </>
   );
 }
