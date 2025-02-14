@@ -8,8 +8,9 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # 依存関係をインストール
-RUN npm install -g concurrently
+RUN npm install -g typescript ts-node nodemon concurrently cross-env
 RUN npm install
 COPY . .
+RUN tsc --noEmit
 # 開発用サーバの起動
 CMD ["npm", "run", "dev:ssr"]
