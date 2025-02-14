@@ -9,9 +9,12 @@ export default function App() {
   if (!posts.length) {
     const initialFunc = async () => {
       try {
-        const todos = await fetchTodos("http://localhost:8000/api/posts");
+        const todos = await fetchTodos("http://localhost:8000/api/posts?test=true");
         console.log("todosは", todos);
         setPosts(todos);
+        const a = await fetch('https://httpbin.org/delay/3');  // 3秒後に返るエンドポイント
+        const b = await a.json();
+        console.log('delay/3は', b);
       } catch (e) {
         console.error("catchのeはこれ", e);
       }
