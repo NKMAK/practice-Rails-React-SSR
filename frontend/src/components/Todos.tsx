@@ -20,3 +20,4 @@ const Todos = ({ todos }: { todos: Promise<Todo[]> }) => {
 };
 
 export default Todos;
+
