@@ -1,7 +1,7 @@
-import App from './App';
 import { renderToString } from 'react-dom/server';
 import React from 'react';
+import SSRtest from './components/toSSRtest';
 
 export function render() {
-  return renderToString(React.createElement(App));
+  return renderToString(React.createElement(SSRtest));
 }
