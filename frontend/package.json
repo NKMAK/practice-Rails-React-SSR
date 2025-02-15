@@ -6,7 +6,9 @@
   "scripts": {
     "dev:express": "nodemon --exec \"npx tsx\" server/index.ts",
     "dev:vite": "vite",
-    "dev:ssr": "concurrently \"npm run dev:vite\" \"npm run dev:express\""
+    "dev:ssr": "concurrently \"npm run dev:vite\" \"npm run dev:express\"",
+     "build": "tsc -b && vite build"
+
   },
   "dependencies": {
     "concurrently": "^9.1.2",
